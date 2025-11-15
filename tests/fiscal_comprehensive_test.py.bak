@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+import sys
+import os
+import traceback
+
+def test_section(title):
+    print(f"\n{'='*60}")
+    print(f"  {title}")
+    print(f"{'='*60}\n")
+
+def test_imports():
+    test_section("1. Testing Module Imports")
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+        from document_processing.ade_processor import ADEProcessor
+        print("✅ ADEProcessor imported")
+        from agents.fiscal_crew import FISCALCrew
+        print("✅ FISCALCrew imported")
+        return True
+    except Exception as e:
+        print(f"❌ Import failed: {e}")
+        traceback.print_exc()
+        return False
+
+def test_ade_processor():
+    test_section("2. Testing ADE Processor")
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+        from document_processing.ade_processor import ADEProcessor
+        processor = ADEProcessor()
+        print(f"✅ ADEProcessor initialized")
+        print(f"   API Key loaded: {bool(processor.api_key)}")
+        print(f"   ADE available: {processor.ade_available}")
+        result = processor.process_sba_form("test.pdf")
+        print(f"✅ SBA Form processing: {result['status']}")
+        return True
+    except Exception as e:
+        print(f"❌ ADE Processor test failed: {e}")
+        return False
+
+def test_fiscal_crew():
+    test_section("3. Testing FISCAL Crew")
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+        from agents.fiscal_crew import FISCALCrew
+        crew = FISCALCrew()
+        print(f"✅ FISCALCrew initialized")
+        sample_data = {"document_type": "SBA Form 4", "loan_amount": 45000}
+        result = crew.analyze_payment_risk(sample_data)
+        print(f"✅ Risk analysis executed: {result['status']}")
+        return True
+    except Exception as e:
+        print(f"❌ FISCAL Crew test failed: {e}")
+        return False
+
+def test_streamlit():
+    test_section("4. Testing Streamlit")
+    try:
+        import streamlit as st
+        print(f"✅ Streamlit imported")
+        return True
+    except Exception as e:
+        print(f"❌ Streamlit import failed: {e}")
+        return False
+
+def main():
+    print("\n" + "="*60)
+    print("  FISCal Comprehensive System Test")
+    print("="*60)
+    
+    results = {
+        "Module Imports": test_imports(),
+        "ADE Processor": test_ade_processor(),
+        "FISCAL Crew": test_fiscal_crew(),
+        "Streamlit": test_streamlit()
+    }
+    
+    test_section("Test Summary")
+    passed = sum(1 for v in results.values() if v)
+    total = len(results)
+    
+    for test_name, result in results.items():
+        status = "✅ PASS" if result else "❌ FAIL"
+        print(f"{status}: {test_name}")
+    
+    print(f"\nTotal: {passed}/{total} tests passed")
+    
+    if passed == total:
+        print("\n✨ All tests passed! Ready for dashboard.")
+        print("Run: streamlit run src/dashboard/streamlit_app.py")
+        return True
+    else:
+        print(f"\n⚠️  {total - passed} test(s) failed.")
+        return False
+
+if __name__ == "__main__":
+    main()
