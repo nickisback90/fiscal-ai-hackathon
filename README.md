@@ -1,6 +1,10 @@
+FISCal: Fraud Intelligence & Surveillance for Compliance and Accountability
+
 AI-Powered Prevention of $233B-$521B in Annual Government Fraud
 Protecting Taxpayer Dollars Through Real-Time AI Detection
+
 Executive Summary
+
 Official Government Accountability Office Data:
 
 $233B-$521B annual fraud (GAO-24-105833, April 2024)
