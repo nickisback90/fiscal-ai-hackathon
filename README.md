@@ -99,14 +99,27 @@ System Architecture
 Core Components Structure
 text
 fiscal-ai-hackathon/
+fiscal-ai-hackathon/
 ├── src/
 │   ├── dashboard/           # Streamlit web interface
 │   ├── detection/           # AI fraud detection engines
+│   │   ├── duplicate_detector.py
+│   │   ├── deceased_validator.py
+│   │   ├── income_analyzer.py
+│   │   ├── credential_checker.py
+│   │   └── entity_graph.py
 │   ├── data/               # Data processing pipelines
+│   │   ├── ingestion/
+│   │   ├── preprocessing/
+│   │   └── enrichment/
+│   ├── models/             # ML model definitions
+│   ├── security/           # Security & encryption modules
 │   └── utils/              # Utility functions
 ├── tests/                  # Comprehensive testing suite
+├── config/                 # Configuration files
+├── docs/                   # Documentation
 ├── requirements.txt        # Dependency management
-└── ultimate_production.py # Production deployment entry point
+└── ultimate_production.py  # Production deployment entry point
 
 AI Detection Framework
 Machine Learning Models: Advanced anomaly detection and pattern recognition
